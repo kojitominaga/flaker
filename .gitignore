@@ -7,5 +7,6 @@
 
 *.tar.gz
 src/*
+src*
 ..Rcheck/*
 
