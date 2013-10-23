@@ -1,0 +1,14 @@
+Package: flaker
+Version: 0.0.1
+Date: 2013-10-23
+Title: R wrapper for the FLake model
+Authors@R: c(person("Koji Tominaga", "Developer", role = c("aut",
+        "cre"), email = "koji.tominaga@ibv.uio.no"))
+Depends: R (>= 2.15), oce
+Description: Provides access to the FLake model without the need for customising and compiling the original Fortran 90 code
+License: LGPL (>= 2)
+URL: http://www.r-project.org, http://www.another.url
+BugReports: http://pkgname.bugtracker.url
+Packaged: 2013-10-22 10:06:28 UTC; kojito
+Author: Koji Tominaga Developer [aut, cre]
+Maintainer: Koji Tominaga Developer <koji.tominaga@ibv.uio.no>

@@ -1,0 +1,5 @@
+useDynLib(flaker,
+          flake_interface_flaker)
+exportPattern(".")
+import(oce)
+
