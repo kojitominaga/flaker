@@ -1,11 +1,11 @@
 Package: flaker
-Version: 0.1.0
+Version: 0.1.1
 Date: 2013-10-23
 Title: R wrapper for the FLake model
 Authors@R: c(person("Koji", "Tominaga", role = c("aut",
         "cre"), email = "koji.tominaga@ibv.uio.no"),
         person("FLake", "Developers", role = c("aut")))
-Depends: R (>= 2.15), oce
+Depends: R (>= 2.15)
 Description: Provides access to the FLake model without the need for customising and compiling the original Fortran 90 code
 License: LGPL (>= 2)
 URL: http://www.r-project.org, http://www.another.url
