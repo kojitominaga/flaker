@@ -11,5 +11,5 @@ License: LGPL (>= 2)
 URL: http://www.r-project.org, http://www.another.url
 BugReports: http://pkgname.bugtracker.url
 Packaged: 2013-10-22 10:06:28 UTC; kojito
-Author: Koji Tominaga Developer [aut, cre]
-Maintainer: Koji Tominaga Developer <koji.tominaga@ibv.uio.no>
+Author: Koji Tominaga [aut, cre]
+Maintainer: Koji Tominaga <koji.tominaga@ibv.uio.no>
