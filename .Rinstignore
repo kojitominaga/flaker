@@ -1,0 +1,5 @@
+.git/*
+.git/objects/*/*
+.gitignore
+.DS_Store
+*/.DS_Store
