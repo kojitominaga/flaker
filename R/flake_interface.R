@@ -180,7 +180,7 @@ runflake <- function(ts.input, parameters, init.state,
     opticpar[['opticpar_extincoef_snow']] <- c(optic[['extincoef_snow']],
                                                 rep(1e10, times = 9))
   } else {
-    stop('simpleoptic = FALSE is not implemented yet')
+    ## stop('simpleoptic = FALSE is not implemented yet')
     ## if simpleoptic is FALSE, optic must be a named list with the names:
     optic.names <- paste('opticpar',
                          c('nband', 'frac', 'extincoef'),
@@ -221,6 +221,10 @@ runflake <- function(ts.input, parameters, init.state,
            )
     }
     opticpar <- optic
+    extw <- opticpar[['opticpar_extincoef_water']]
+    frcw <- opticpar[['opticpar_frac_water']]
+    extwtypical <- sum(extw * frcw) / sum(frcw)
+    cat('typical extinction coefficient needs to be reviewed')
   }
 
   ## init.state must be a named vector with the following names
@@ -277,114 +281,36 @@ runflake <- function(ts.input, parameters, init.state,
   ts.input9 <- ts.input[['P_a_in']]
   
   ## n == 1
-  temp <-
-    .Fortran('flake_interface_flaker',
-             ts.input1[1],
-             ts.input2[1],
-             ts.input3[1],
-             ts.input4[1],
-             ts.input5[1],
-             ts.input6[1],
-             ts.input7[1],
-             ts.input8[1],
-             ts.input9[1],
-             depth_w,
-             fetch,
-             depth_bs,
-             T_bs,
-             par_Coriolis,
-             del_time, # 15
-             init.state[['T_snow']],
-             init.state[['T_ice']],
-             init.state[['T_mnw']],
-             init.state[['T_wML']],
-             init.state[['T_bot']], # 20
-             init.state[['T_B1']],
-             init.state[['C_T']],
-             init.state[['h_snow']],
-             init.state[['h_ice']],
-             init.state[['h_ML']], # 25
-             init.state[['H_B1']],
-             init.state[['T_sfc']],
-             albedo_water,
-             albedo_ice,
-             albedo_snow,  # 30
-             ## as.integer(opticpar_nband_water),
-             ## opticpar_frac_water,
-             opticpar_extincoef_water_single,
-             ## as.integer(opticpar_nband_ice),
-             ## opticpar_frac_ice,
-             opticpar_extincoef_ice_single,
-             ## as.integer(opticpar_nband_snow),
-             ## opticpar_frac_snow,
-             opticpar_extincoef_snow_single, # 39 (+ 54) - 6
-             numeric(1), # T_snow_out  # 31 + 9 (+ 54) - 6
-             numeric(1), # T_ice_out   
-             numeric(1), # T_mnw_out
-             numeric(1), # T_wML_out
-             numeric(1), # T_bot_out  # 35 + 9 (+ 54) - 6
-             numeric(1), # T_B1_out
-             numeric(1), # C_T_out
-             numeric(1), # h_snow_out
-             numeric(1), # h_ice_out
-             numeric(1), # h_ML_out  # 40 + 9 (+ 54) - 6
-             numeric(1), # H_B1_out
-             numeric(1), # T_sfc_n  # 42 + 9 (+ 54) - 6
-             numeric(1),
-             numeric(1),
-             numeric(1),
-             numeric(1),
-             numeric(1),
-             numeric(1),
-             numeric(1),
-             numeric(1),
-             numeric(1),
-             numeric(1),
-             numeric(1),
-             numeric(1),
-             numeric(1),
-             numeric(1),
-             numeric(1),
-             numeric(1),
-             numeric(1),
-             numeric(1)
-             )
-  state[1, ] <- unlist(temp[40:69 - 6])
-
-  ## for i in 2:n
-  for (i in 2:n) {
-    if (i %% 10000 == 0) {
-      cat(paste('... iteration', i, ':', round(i / n * 100), 'percent done\n'))
-    }
-    temp <- 
+  if (simpleoctic) {
+    temp <-
       .Fortran('flake_interface_flaker',
-               ts.input1[i],
-               ts.input2[i],
-               ts.input3[i],
-               ts.input4[i],
-               ts.input5[i],
-               ts.input6[i],
-               ts.input7[i],
-               ts.input8[i],
-               ts.input9[i],
+               ts.input1[1],
+               ts.input2[1],
+               ts.input3[1],
+               ts.input4[1],
+               ts.input5[1],
+               ts.input6[1],
+               ts.input7[1],
+               ts.input8[1],
+               ts.input9[1],
                depth_w,
                fetch,
                depth_bs,
                T_bs,
                par_Coriolis,
                del_time, # 15
-               state[i - 1, 1], # state[['T_snow']][i-1],
-               state[i - 1, 2], # state[['T_ice']][i-1],
-               state[i - 1, 3], # state[['T_mnw']][i-1],
-               state[i - 1, 4], # state[['T_wML']][i-1],
-               state[i - 1, 5], # state[['T_bot']][i-1], # 20
-               state[i - 1, 6], # state[['T_B1']][i-1],
-               state[i - 1, 7], # state[['C_T']][i-1],
-               state[i - 1, 8], # state[['h_snow']][i-1],
-               state[i - 1, 9], # state[['h_ice']][i-1],
-               state[i - 1, 10], # state[['h_ML']][i-1], # 25
-               state[i - 1, 11], # state[['H_B1']][i-1],
-               state[i - 1, 12], # state[['T_sfc']][i-1],
+               init.state[['T_snow']],
+               init.state[['T_ice']],
+               init.state[['T_mnw']],
+               init.state[['T_wML']],
+               init.state[['T_bot']], # 20
+               init.state[['T_B1']],
+               init.state[['C_T']],
+               init.state[['h_snow']],
+               init.state[['h_ice']],
+               init.state[['h_ML']], # 25
+               init.state[['H_B1']],
+               init.state[['T_sfc']],
                albedo_water,
                albedo_ice,
                albedo_snow,  # 30
@@ -428,7 +354,250 @@ runflake <- function(ts.input, parameters, init.state,
                numeric(1),
                numeric(1)
                )
-    state[i, ] <- unlist(temp[40:69 - 6])
+    state[1, ] <- unlist(temp[40:69 - 6])
+  } else {
+    temp <-
+      .Fortran('flake_interface_flaker',
+               ts.input1[1],
+               ts.input2[1],
+               ts.input3[1],
+               ts.input4[1],
+               ts.input5[1],
+               ts.input6[1],
+               ts.input7[1],
+               ts.input8[1],
+               ts.input9[1],
+               depth_w,
+               fetch,
+               depth_bs,
+               T_bs,
+               par_Coriolis,
+               del_time, # 15
+               init.state[['T_snow']],
+               init.state[['T_ice']],
+               init.state[['T_mnw']],
+               init.state[['T_wML']],
+               init.state[['T_bot']], # 20
+               init.state[['T_B1']],
+               init.state[['C_T']],
+               init.state[['h_snow']],
+               init.state[['h_ice']],
+               init.state[['h_ML']], # 25
+               init.state[['H_B1']],
+               init.state[['T_sfc']],
+               albedo_water,
+               albedo_ice,
+               albedo_snow,  # 30
+               #################
+               extw[1], extw[2], extw[3], extw[4], extw[5],
+               extw[6], extw[7], extw[8], extw[9], extw[10],
+               extwtypical,
+               frcw[1], frcw[2], frcw[3], frcw[4], frcw[5],
+               frcw[6], frcw[7], frcw[8], frcw[9], frcw[10],
+               ## as.integer(opticpar_nband_water),
+               ## opticpar_frac_water,
+               #### opticpar_extincoef_water_single,
+               #################
+               ## as.integer(opticpar_nband_ice),
+               ## opticpar_frac_ice,
+               opticpar_extincoef_ice_single,
+               ## as.integer(opticpar_nband_snow),
+               ## opticpar_frac_snow,
+               opticpar_extincoef_snow_single, # 39 (+ 54) - 6 + 20 
+               numeric(1), # T_snow_out  # 31 + 9 (+ 54) - 6 + 20
+               numeric(1), # T_ice_out   
+               numeric(1), # T_mnw_out
+               numeric(1), # T_wML_out
+               numeric(1), # T_bot_out  # 35 + 9 (+ 54) - 6 + 20
+               numeric(1), # T_B1_out
+               numeric(1), # C_T_out
+               numeric(1), # h_snow_out
+               numeric(1), # h_ice_out
+               numeric(1), # h_ML_out  # 40 + 9 (+ 54) - 6 + 20 
+               numeric(1), # H_B1_out
+               numeric(1), # T_sfc_n  # 42 + 9 (+ 54) - 6 + 20
+               numeric(1),
+               numeric(1),
+               numeric(1),
+               numeric(1),
+               numeric(1),
+               numeric(1),
+               numeric(1),
+               numeric(1),
+               numeric(1),
+               numeric(1),
+               numeric(1),
+               numeric(1),
+               numeric(1),
+               numeric(1),
+               numeric(1),
+               numeric(1),
+               numeric(1),
+               numeric(1)
+               )
+    state[1, ] <- unlist(temp[40:69 - 6 + 20])
+  }
+  ## for i in 2:n
+  for (i in 2:n) {
+    if (i %% 10000 == 0) {
+      cat(paste('... iteration', i, ':', round(i / n * 100), 'percent done\n'))
+    }
+    if (simpleoptic) {
+      temp <- 
+        .Fortran('flake_interface_flaker',
+                 ts.input1[i],
+                 ts.input2[i],
+                 ts.input3[i],
+                 ts.input4[i],
+                 ts.input5[i],
+                 ts.input6[i],
+                 ts.input7[i],
+                 ts.input8[i],
+                 ts.input9[i],
+                 depth_w,
+                 fetch,
+                 depth_bs,
+                 T_bs,
+                 par_Coriolis,
+                 del_time, # 15
+                 state[i - 1, 1], # state[['T_snow']][i-1],
+                 state[i - 1, 2], # state[['T_ice']][i-1],
+                 state[i - 1, 3], # state[['T_mnw']][i-1],
+                 state[i - 1, 4], # state[['T_wML']][i-1],
+                 state[i - 1, 5], # state[['T_bot']][i-1], # 20
+                 state[i - 1, 6], # state[['T_B1']][i-1],
+                 state[i - 1, 7], # state[['C_T']][i-1],
+                 state[i - 1, 8], # state[['h_snow']][i-1],
+                 state[i - 1, 9], # state[['h_ice']][i-1],
+                 state[i - 1, 10], # state[['h_ML']][i-1], # 25
+                 state[i - 1, 11], # state[['H_B1']][i-1],
+                 state[i - 1, 12], # state[['T_sfc']][i-1],
+                 albedo_water,
+                 albedo_ice,
+                 albedo_snow,  # 30
+                 ## as.integer(opticpar_nband_water),
+                 ## opticpar_frac_water,
+                 opticpar_extincoef_water_single,
+                 ## as.integer(opticpar_nband_ice),
+                 ## opticpar_frac_ice,
+                 opticpar_extincoef_ice_single,
+                 ## as.integer(opticpar_nband_snow),
+                 ## opticpar_frac_snow,
+                 opticpar_extincoef_snow_single, # 39 (+ 54) - 6
+                 numeric(1), # T_snow_out  # 31 + 9 (+ 54) - 6
+                 numeric(1), # T_ice_out   
+                 numeric(1), # T_mnw_out
+                 numeric(1), # T_wML_out
+                 numeric(1), # T_bot_out  # 35 + 9 (+ 54) - 6
+                 numeric(1), # T_B1_out
+                 numeric(1), # C_T_out
+                 numeric(1), # h_snow_out
+                 numeric(1), # h_ice_out
+                 numeric(1), # h_ML_out  # 40 + 9 (+ 54) - 6
+                 numeric(1), # H_B1_out
+                 numeric(1), # T_sfc_n  # 42 + 9 (+ 54) - 6
+                 numeric(1),
+                 numeric(1),
+                 numeric(1),
+                 numeric(1),
+                 numeric(1),
+                 numeric(1),
+                 numeric(1),
+                 numeric(1),
+                 numeric(1),
+                 numeric(1),
+                 numeric(1),
+                 numeric(1),
+                 numeric(1),
+                 numeric(1),
+                 numeric(1),
+                 numeric(1),
+                 numeric(1),
+                 numeric(1)
+                 )
+      state[i, ] <- unlist(temp[40:69 - 6])
+    } else {
+      temp <- 
+        .Fortran('flake_interface_flaker',
+                 ts.input1[i],
+                 ts.input2[i],
+                 ts.input3[i],
+                 ts.input4[i],
+                 ts.input5[i],
+                 ts.input6[i],
+                 ts.input7[i],
+                 ts.input8[i],
+                 ts.input9[i],
+                 depth_w,
+                 fetch,
+                 depth_bs,
+                 T_bs,
+                 par_Coriolis,
+                 del_time, # 15
+                 state[i - 1, 1], # state[['T_snow']][i-1],
+                 state[i - 1, 2], # state[['T_ice']][i-1],
+                 state[i - 1, 3], # state[['T_mnw']][i-1],
+                 state[i - 1, 4], # state[['T_wML']][i-1],
+                 state[i - 1, 5], # state[['T_bot']][i-1], # 20
+                 state[i - 1, 6], # state[['T_B1']][i-1],
+                 state[i - 1, 7], # state[['C_T']][i-1],
+                 state[i - 1, 8], # state[['h_snow']][i-1],
+                 state[i - 1, 9], # state[['h_ice']][i-1],
+                 state[i - 1, 10], # state[['h_ML']][i-1], # 25
+                 state[i - 1, 11], # state[['H_B1']][i-1],
+                 state[i - 1, 12], # state[['T_sfc']][i-1],
+                 albedo_water,
+                 albedo_ice,
+                 albedo_snow,  # 30      
+                 #################
+                 extw[1], extw[2], extw[3], extw[4], extw[5],
+                 extw[6], extw[7], extw[8], extw[9], extw[10],
+                 extwtypical,
+                 frcw[1], frcw[2], frcw[3], frcw[4], frcw[5],
+                 frcw[6], frcw[7], frcw[8], frcw[9], frcw[10],
+                 ## as.integer(opticpar_nband_water),
+                 ## opticpar_frac_water,
+                 #### opticpar_extincoef_water_single,
+                 #################
+                 ## as.integer(opticpar_nband_ice),
+                 ## opticpar_frac_ice,
+                 opticpar_extincoef_ice_single,
+                 ## as.integer(opticpar_nband_snow),
+                 ## opticpar_frac_snow,
+                 opticpar_extincoef_snow_single, # 39 (+ 54) - 6 + 20 
+                 numeric(1), # T_snow_out  # 31 + 9 (+ 54) - 6 + 20
+                 numeric(1), # T_ice_out   
+                 numeric(1), # T_mnw_out
+                 numeric(1), # T_wML_out
+                 numeric(1), # T_bot_out  # 35 + 9 (+ 54) - 6 + 20
+                 numeric(1), # T_B1_out
+                 numeric(1), # C_T_out
+                 numeric(1), # h_snow_out
+                 numeric(1), # h_ice_out
+                 numeric(1), # h_ML_out  # 40 + 9 (+ 54) - 6 + 20 
+                 numeric(1), # H_B1_out
+                 numeric(1), # T_sfc_n  # 42 + 9 (+ 54) - 6 + 20
+                 numeric(1),
+                 numeric(1),
+                 numeric(1),
+                 numeric(1),
+                 numeric(1),
+                 numeric(1),
+                 numeric(1),
+                 numeric(1),
+                 numeric(1),
+                 numeric(1),
+                 numeric(1),
+                 numeric(1),
+                 numeric(1),
+                 numeric(1),
+                 numeric(1),
+                 numeric(1),
+                 numeric(1),
+                 numeric(1)
+                 )
+      state[i, ] <- unlist(temp[40:69 - 6 + 20])
+    }
   }
   st <- as.data.frame(state)
   names(st) <- c('T_snow',
