@@ -1,5 +1,5 @@
 Package: flaker
-Version: 0.1.2
+Version: 0.2.0
 Date: 2014-05-20
 Title: R wrapper for the FLake model (package name to be decided)
 Authors@R: c(person("FLake", "Developers (detailed names to come)", role = c("aut")),	

@@ -46,7 +46,10 @@ runflake(ts.input, parameters, init.state,
     \code{opticpar_extincoef_snow}) with
     \code{*_nband_*} being an integer,
     \code{*_frac_*} being a numeric vector of length 10,
-    \code{*_extincoef_*} being a numeric vector of length 10
+    \code{*_extincoef_*} being a numeric vector of length 10. 
+    At the moment the shape of these elements for ice and snow
+    will need to be 10 bands, despite that 10-bandwidth spectra configuration 
+    is not implemented yet. It is only for water for now. 
   }
 }
 \value{a \code{data.frame} with variables 
