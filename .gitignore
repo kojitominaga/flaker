@@ -9,4 +9,6 @@
 src/*
 src*
 ..Rcheck/*
-
+testing/examples/exampledata/*
+testing/examples/exampledata/*/*
+testing/examples/exampledata/*/*/*
