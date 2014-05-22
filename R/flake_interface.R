@@ -357,7 +357,7 @@ runflake <- function(ts.input, parameters, init.state,
     state[1, ] <- unlist(temp[40:69 - 6])
   } else {
     temp <-
-      .Fortran('flake_interface_flaker',
+      .Fortran('flake_interface_flaker_10band',
                ts.input1[1],
                ts.input2[1],
                ts.input3[1],
@@ -518,7 +518,7 @@ runflake <- function(ts.input, parameters, init.state,
       state[i, ] <- unlist(temp[40:69 - 6])
     } else {
       temp <- 
-        .Fortran('flake_interface_flaker',
+        .Fortran('flake_interface_flaker_10band',
                  ts.input1[i],
                  ts.input2[i],
                  ts.input3[i],
