@@ -1,5 +1,6 @@
 useDynLib(flaker,
-          flake_interface_flaker)
+          flake_interface_flaker,
+          flake_interface_flaker_10band)
 exportPattern(".")
 import(oce)
 
