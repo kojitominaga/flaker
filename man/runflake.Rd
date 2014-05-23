@@ -59,55 +59,33 @@ runflake(ts.input, parameters, init.state,
   the same \code{nrow} as \code{ts.input}
 }
 \details{
-  \tabular{llll}{
-    Time series input \tab \tab \tab \cr 
-    \tab \code{dMsnowdt_in}
-    \tab The rate of snow accumulation
-    \tab [kg m^{-2} s^{-1}] \cr
-    \tab \code{I_atm_in}
-    \tab Solar radiation flux at the surface
-    \tab [W m^{-2}] \cr
-    \tab \code{Q_atm_lw_in}
-    \tab Long-wave radiation flux from the atmosphere
-    \tab [W m^{-2}] \cr
-    \tab \code{height_u_in}
-    \tab Height above the lake surface where the wind speeed measured
-    \tab [m] \cr
-    \tab \code{height_tq_in}
-    \tab Height where temperature and humidity are measured
-    \tab [m] \cr
-    \tab \code{U_a_in}
-    \tab Wind speed at z = \code{height_u_in}
-    \tab [m s^{-1}] \cr
-    \tab \code{T_a_in}
-    \tab Air temperature at z = \code{height_tq_in}
-    \tab [K] \cr
-    \tab \code{q_a_in}
-    \tab Air specific humidity at z = \code{height_tq_in}
-    \tab \cr
-    \tab \code{P_a_in}
-    \tab Surface air pressure
-    \tab [N m^{-2} = kg m^{-1} s^{-2}] \cr
-    Lake specific parameters \tab \tab \tab \cr 
-    \tab \code{depth_w}
-    \tab The lake depth
-    \tab [m] \cr
-    \tab \code{fetch}
-    \tab Typical wind fetch
-    \tab [m] \cr
-    \tab \code{depth_bs}
-    \tab Depth of the thermally active layer of the bottom sediments
-    \tab [m] \cr
-    \tab \code{T_bs}
-    \tab Temperature at the outer edge of the thermally active layer of the
-    bottom sediments
-    \tab [K] \cr
-    \tab \code{par_Coriolis}
-    \tab The Coriolis parameter
-    \tab [s^{-1}] \cr
-    \tab \code{del_time}
-    \tab The model time step
-    \tab [s] \cr
+  Time series input
+  \itemize{
+    \item \code{dMsnowdt_in} The rate of snow accumulation [kg m^{-2}
+    s^{-1}] 
+    \item \code{I_atm_in} Solar radiation flux at the surface [W m^{-2}] 
+    \item \code{Q_atm_lw_in} Long-wave radiation flux from the
+    atmosphere [W m^{-2}] 
+    \item \code{height_u_in} Height above the lake surface where the
+    wind speeed measured [m]
+    \item \code{height_tq_in} Height where temperature and humidity are
+    measured [m]
+    \item \code{U_a_in} Wind speed at z = \code{height_u_in} [m s^{-1}] 
+    \item \code{T_a_in} Air temperature at z = \code{height_tq_in} [K] 
+    \item \code{q_a_in} Air specific humidity at z = \code{height_tq_in} 
+    \item \code{P_a_in} Surface air pressure [N m^{-2} = kg m^{-1}
+    s^{-2}]
+  }
+  Lake specific parameters
+  \itemize{
+    \item \code{depth_w} The lake depth [m] 
+    \item \code{fetch} Typical wind fetch [m]
+    \item \code{depth_bs} Depth of the thermally active layer of the
+    bottom sediments [m] 
+    \item \code{T_bs} Temperature at the outer edge of the thermally active layer of the
+    bottom sediments [K] 
+    \item \code{par_Coriolis} The Coriolis parameter [s^{-1}] 
+    \item \code{del_time} The model time step [s]
   }
   State variables 
   \itemize{
