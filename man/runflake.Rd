@@ -89,36 +89,36 @@ runflake(ts.input, parameters, init.state,
   }
   State variables 
   \itemize{
-    \item T_snow   Temperature at the air-snow interface [K] 
-    \item T_ice    Temperature at the snow-ice or air-ice interface [K]
-    \item T_mnw    Mean temperature of the water column [K]
-    \item T_wML    Mixed-layer temperature [K]
-    \item T_bot    Temperature at the water-bottom sediment interface [K]
-    \item T_B1     Temperature at the bottom of the upper layer of the sediments [K]
-    \item C_T      Shape factor (thermocline)
-    \item h_snow   Snow thickness [m]
-    \item h_ice    Ice thickness [m]
-    \item h_ML     Thickness of the mixed-layer [m]
-    \item H_B1     Thickness of the upper layer of bottom sediments [m]
-    \item T_sfc    Surface temperature at the previous time step [K]  
+    \item \code{T_snow}   Temperature at the air-snow interface [K] 
+    \item \code{T_ice}    Temperature at the snow-ice or air-ice interface [K]
+    \item \code{T_mnw}    Mean temperature of the water column [K]
+    \item \code{T_wML}    Mixed-layer temperature [K]
+    \item \code{T_bot}    Temperature at the water-bottom sediment interface [K]
+    \item \code{T_B1}     Temperature at the bottom of the upper layer of the sediments [K]
+    \item \code{C_T}      Shape factor (thermocline)
+    \item \code{h_snow}   Snow thickness [m]
+    \item \code{h_ice}    Ice thickness [m]
+    \item \code{h_ML}     Thickness of the mixed-layer [m]
+    \item \code{H_B1}     Thickness of the upper layer of bottom sediments [m]
+    \item \code{T_sfc}    Surface temperature at the previous time step [K]  
   }
   Not sure if this is used - need to check -- wrap in parameters
   \itemize{
-    \item albedo_water Water surface albedo with respect to the solar radiation
-    \item albedo_ice   Ice surface albedo with respect to the solar radiation
-    \item albedo_snow  Snow surface albedo with respect to the solar radiation
+    \item \code{albedo_water} Water surface albedo with respect to the solar radiation
+    \item \code{albedo_ice}   Ice surface albedo with respect to the solar radiation
+    \item \code{albedo_snow}  Snow surface albedo with respect to the solar radiation
   }
   Optical parameters
   \itemize{
-    \item opticpar_nband_water[1]        Number of wave-length bands for water       
-    \item opticpar_frac_water[1:10]      Fractions of total radiation flux for water 
-    \item opticpar_extincoef_water[1:10] Extinction coefficients for water           
-    \item opticpar_nband_ice[1]          Number of wave-length bands for ice         
-    \item opticpar_frac_ice[1:10]        Fractions of total radiation flux for ice   
-    \item opticpar_extincoef_ice[1:10]   Extinction coefficients for ice             
-    \item opticpar_nband_snow[1]         Number of wave-length bands for snow        
-    \item opticpar_frac_snow[1:10]       Fractions of total radiation flux for snow  
-    \item opticpar_extincoef_snow[1:10]  Extinction coefficients for snow            
+    \item \code{opticpar_nband_water[1]}        Number of wave-length bands for water       
+    \item \code{opticpar_frac_water[1:10]}      Fractions of total radiation flux for water 
+    \item \code{opticpar_extincoef_water[1:10]} Extinction coefficients for water           
+    \item \code{opticpar_nband_ice[1]}          Number of wave-length bands for ice         
+    \item \code{opticpar_frac_ice[1:10]}        Fractions of total radiation flux for ice   
+    \item \code{opticpar_extincoef_ice[1:10]}   Extinction coefficients for ice             
+    \item \code{opticpar_nband_snow[1]}         Number of wave-length bands for snow        
+    \item \code{opticpar_frac_snow[1:10]}       Fractions of total radiation flux for snow  
+    \item \code{opticpar_extincoef_snow[1:10]}  Extinction coefficients for snow            
   }
 }
 
